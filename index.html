@@ -244,7 +244,7 @@
       <button class="tab-btn" id="tabClassesBtn" onclick="switchTab('classes')">Odjeljenja</button>
     </div>
 
-    <!-- FILTER ODJELJENJA (Prikazuje se samo na tabu Odjeljenja) -->
+    <!-- FILTER ODJELJENJA -->
     <div id="classFilterBar" class="filter-bar" style="display: none;">
       <label for="classSelect" style="color: var(--text-muted); font-size: 14px;">Izaberi odjeljenje:</label>
       <select id="classSelect" onchange="renderClassView()"></select>
@@ -274,39 +274,69 @@
     let appData = null;
     let currentTab = 'leaderboard';
 
-    // Inicijalno učitavanje JSON fajla
+    // Helper za zaštitu od čudnih znakova u imenima
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     async function loadData() {
       try {
         const res = await fetch('data.json');
+        if (!res.ok) throw new Error('Nije uspjelo učitavanje data.json (Status: ' + res.status + ')');
         appData = await res.json();
+        
+        // Osiguraj da su rangovi sortirani silazno po minimalnim bodovima
+        if (appData.ranks) {
+          appData.ranks.sort((a, b) => (b.min || 0) - (a.min || 0));
+        }
+
         setupClassDropdown();
         renderLeaderboard();
       } catch (err) {
         console.error('Greška pri učitavanju data.json:', err);
+        const tbody = document.getElementById('rankingTableBody');
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #ff5500; padding: 20px;">
+          Greška pri učitavanju podataka iz data.json! Provjeri konzolu (F12).
+        </td></tr>`;
       }
     }
 
-    // Kalkulacija poena za jednog učenika
+    // Sigurna kalkulacija (radi čak i ako je ocjena broj ili string)
     function calculatePoints(grades) {
+      if (!Array.isArray(grades)) return 0;
       return grades.reduce((acc, grade) => {
-        return acc + (appData.pointValues[grade] || 0);
+        const key = String(grade);
+        const val = (appData.pointValues && appData.pointValues[key] !== undefined)
+          ? appData.pointValues[key] 
+          : 0;
+        return acc + val;
       }, 0);
     }
 
-    // Pronalaženje odgovarajućeg ranga na osnovu bodova
     function getRank(points) {
+      if (!appData.ranks || appData.ranks.length === 0) {
+        return { name: "Unranked", icon: "images/unranked.PNG" };
+      }
       for (const rank of appData.ranks) {
         if (points >= rank.min) {
           return rank;
         }
       }
-      return appData.ranks[appData.ranks.length - 1]; // Unranked fallback
+      return appData.ranks[appData.ranks.length - 1];
     }
 
-    // Svi učenici iz svih odjeljenja zajedno (Global Lista)
     function getAllStudents() {
       const all = [];
+      if (!appData.classes) return all;
+
       for (const [className, students] of Object.entries(appData.classes)) {
+        if (!Array.isArray(students)) continue;
         students.forEach(student => {
           const points = calculatePoints(student.grades);
           const rank = getRank(points);
@@ -343,6 +373,8 @@
     function setupClassDropdown() {
       const select = document.getElementById('classSelect');
       select.innerHTML = '';
+      if (!appData.classes) return;
+
       Object.keys(appData.classes).forEach(cls => {
         const opt = document.createElement('option');
         opt.value = cls;
@@ -357,8 +389,9 @@
     }
 
     function renderClassView() {
-      const selectedClass = document.getElementById('classSelect').value;
-      const rawStudents = appData.classes[selectedClass] || [];
+      const select = document.getElementById('classSelect');
+      const selectedClass = select.value;
+      const rawStudents = (appData.classes && appData.classes[selectedClass]) || [];
       const students = rawStudents.map(s => {
         const points = calculatePoints(s.grades);
         return {
@@ -372,43 +405,60 @@
       renderTable(students);
     }
 
-    // Renderovanje HTML tabele
     function renderTable(list) {
       const tbody = document.getElementById('rankingTableBody');
       tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding: 24px;">Nema pronađenih učenika.</td></tr>`;
+        return;
+      }
 
       list.forEach((student, index) => {
         const pos = index + 1;
         const posClass = pos === 1 ? 'standing-1' : pos === 2 ? 'standing-2' : pos === 3 ? 'standing-3' : '';
 
-        // Ako je polje avatar prazno (""), postavi default-avatar.png
-        const avatarSrc = (student.avatar && student.avatar.trim() !== '') 
-          ? student.avatar 
+        // Avatar fallback logika bez beskonačne petlje
+        const avatarSrc = (student.avatar && String(student.avatar).trim() !== '') 
+          ? escapeHtml(student.avatar) 
           : 'images/default-avatar.png';
+
+        const gradesDisplay = Array.isArray(student.grades) && student.grades.length > 0 
+          ? student.grades.join(', ') 
+          : 'Nema ocjena';
 
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="standing-number ${posClass}">#${pos}</td>
           <td>
-            <div class="rank-icon-wrapper" title="${student.rank.name}">
-              <img src="${student.rank.icon}" alt="${student.rank.name}" class="pixel-rescale" onerror="this.src='images/unranked.PNG';" />
+            <div class="rank-icon-wrapper" title="${escapeHtml(student.rank.name)}">
+              <img 
+                src="${escapeHtml(student.rank.icon)}" 
+                alt="${escapeHtml(student.rank.name)}" 
+                class="pixel-rescale" 
+                onerror="this.onerror=null; this.src='images/unranked.PNG';" 
+              />
             </div>
           </td>
           <td>
             <div class="player-cell">
-              <img src="${avatarSrc}" alt="${student.name}" class="pixel-rescale player-avatar" onerror="this.src='images/default-avatar.png';" />
-              <span><strong>${student.name}</strong></span>
+              <img 
+                src="${avatarSrc}" 
+                alt="${escapeHtml(student.name)}" 
+                class="pixel-rescale player-avatar" 
+                onerror="this.onerror=null; this.src='images/default-avatar.png';" 
+              />
+              <span><strong>${escapeHtml(student.name)}</strong></span>
             </div>
           </td>
-          <td><span class="tag-class">${student.className.toUpperCase()}</span></td>
-          <td style="color: var(--text-muted); font-size: 13px;">[ ${student.grades.join(', ')} ]</td>
+          <td><span class="tag-class">${escapeHtml(student.className.toUpperCase())}</span></td>
+          <td style="color: var(--text-muted); font-size: 13px;">[ ${escapeHtml(gradesDisplay)} ]</td>
           <td><span class="points-badge">${student.points} PTS</span></td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    // Pokreni
     loadData();
   </script>
 </body>
