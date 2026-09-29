@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School FACEIT Rankings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #121214;
+      --bg-card: #1b1b1e;
+      --bg-table-row: #222226;
+      --bg-table-hover: #2b2b30;
+      --accent-orange: #ff5500;
+      --accent-orange-glow: rgba(255, 85, 0, 0.35);
+      --text-main: #f5f5f7;
+      --text-muted: #8d8d99;
+      --border-color: #2e2e35;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: var(--accent-orange);
+      color: #fff;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px var(--accent-orange-glow);
+    }
+
+    h1 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* TABS */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: #242429;
+    }
+
+    .tab-btn.active {
+      background: var(--accent-orange);
+      color: #fff;
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 12px var(--accent-orange-glow);
+    }
+
+    /* SUB CONTROLS (za odjeljenja) */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      background: var(--bg-card);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    select {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    /* TABLE */
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: #17171a;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-table-hover);
+    }
+
+    /* USER COLUMN */
+    .player-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* RESCALING SYSTEM (TAČNO 33x33 px) */
+    .pixel-rescale {
+      width: 33px;
+      height: 33px;
+      min-width: 33px;
+      min-height: 33px;
+      max-width: 33px;
+      max-height: 33px;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      display: block;
+    }
+
+    .player-avatar {
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+      background-color: #2c2d30;
+    }
+
+    .rank-icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 33px;
+      height: 33px;
+    }
+
+    .points-badge {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      color: var(--accent-orange);
+      font-size: 16px;
+    }
+
+    .standing-number {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .standing-1 { color: #ffd700; }
+    .standing-2 { color: #c0c0c0; }
+    .standing-3 { color: #cd7f32; }
+
+    .tag-class {
+      background: #27272b;
+      border: 1px solid var(--border-color);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span class="logo-badge">FACEIT</span>
+        <h1>School ELO Rankings</h1>
+      </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" id="tabLeaderboardBtn" onclick="switchTab('leaderboard')">Top Leaderboard</button>
+      <button class="tab-btn" id="tabClassesBtn" onclick="switchTab('classes')">Odjeljenja</button>
+    </div>
+
+    <!-- FILTER ODJELJENJA (Prikazuje se samo na tabu Odjeljenja) -->
+    <div id="classFilterBar" class="filter-bar" style="display: none;">
+      <label for="classSelect" style="color: var(--text-muted); font-size: 14px;">Izaberi odjeljenje:</label>
+      <select id="classSelect" onchange="renderClassView()"></select>
+    </div>
+
+    <!-- TABELA -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px;">#</th>
+            <th>Rank</th>
+            <th>Učenik</th>
+            <th>Odjeljenje</th>
+            <th>Ocjene</th>
+            <th>Bodovi (ELO)</th>
+          </tr>
+        </thead>
+        <tbody id="rankingTableBody">
+          <!-- Dinamički podaci -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let appData = null;
+    let currentTab = 'leaderboard';
+
+    // Inicijalno učitavanje JSON fajla
+    async function loadData() {
+      try {
+        const res = await fetch('data.json');
+        appData = await res.json();
+        setupClassDropdown();
+        renderLeaderboard();
+      } catch (err) {
+        console.error('Greška pri učitavanju data.json:', err);
+      }
+    }
+
+    // Kalkulacija poena za jednog učenika
+    function calculatePoints(grades) {
+      return grades.reduce((acc, grade) => {
+        return acc + (appData.pointValues[grade] || 0);
+      }, 0);
+    }
+
+    // Pronalaženje odgovarajućeg ranga na osnovu bodova
+    function getRank(points) {
+      for (const rank of appData.ranks) {
+        if (points >= rank.min) {
+          return rank;
+        }
+      }
+      return appData.ranks[appData.ranks.length - 1]; // Unranked fallback
+    }
+
+    // Svi učenici iz svih odjeljenja zajedno (Global Lista)
+    function getAllStudents() {
+      const all = [];
+      for (const [className, students] of Object.entries(appData.classes)) {
+        students.forEach(student => {
+          const points = calculatePoints(student.grades);
+          const rank = getRank(points);
+          all.push({
+            ...student,
+            className,
+            points,
+            rank
+          });
+        });
+      }
+      return all.sort((a, b) => b.points - a.points);
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      const leadBtn = document.getElementById('tabLeaderboardBtn');
+      const classBtn = document.getElementById('tabClassesBtn');
+      const filterBar = document.getElementById('classFilterBar');
+
+      if (tab === 'leaderboard') {
+        leadBtn.classList.add('active');
+        classBtn.classList.remove('active');
+        filterBar.style.display = 'none';
+        renderLeaderboard();
+      } else {
+        classBtn.classList.add('active');
+        leadBtn.classList.remove('active');
+        filterBar.style.display = 'flex';
+        renderClassView();
+      }
+    }
+
+    function setupClassDropdown() {
+      const select = document.getElementById('classSelect');
+      select.innerHTML = '';
+      Object.keys(appData.classes).forEach(cls => {
+        const opt = document.createElement('option');
+        opt.value = cls;
+        opt.innerText = cls.toUpperCase();
+        select.appendChild(opt);
+      });
+    }
+
+    function renderLeaderboard() {
+      const students = getAllStudents();
+      renderTable(students);
+    }
+
+    function renderClassView() {
+      const selectedClass = document.getElementById('classSelect').value;
+      const rawStudents = appData.classes[selectedClass] || [];
+      const students = rawStudents.map(s => {
+        const points = calculatePoints(s.grades);
+        return {
+          ...s,
+          className: selectedClass,
+          points,
+          rank: getRank(points)
+        };
+      }).sort((a, b) => b.points - a.points);
+
+      renderTable(students);
+    }
+
+    // Renderovanje HTML tabele
+    function renderTable(list) {
+      const tbody = document.getElementById('rankingTableBody');
+      tbody.innerHTML = '';
+
+      list.forEach((student, index) => {
+        const pos = index + 1;
+        const posClass = pos === 1 ? 'standing-1' : pos === 2 ? 'standing-2' : pos === 3 ? 'standing-3' : '';
+
+        // Rescaling profilna (ako nema slike stavlja unranked.PNG ili generic)
+        const avatarSrc = student.avatar && student.avatar.trim() !== '' 
+          ? student.avatar 
+          : 'images/unranked.PNG';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="standing-number ${posClass}">#${pos}</td>
+          <td>
+            <div class="rank-icon-wrapper" title="${student.rank.name}">
+              <img src="${student.rank.icon}" alt="${student.rank.name}" class="pixel-rescale" onerror="this.src='images/unranked.PNG';" />
+            </div>
+          </td>
+          <td>
+            <div class="player-cell">
+              <img src="${avatarSrc}" alt="${student.name}" class="pixel-rescale player-avatar" onerror="this.src='images/unranked.PNG';" />
+              <span><strong>${student.name}</strong></span>
+            </div>
+          </td>
+          <td><span class="tag-class">${student.className.toUpperCase()}</span></td>
+          <td style="color: var(--text-muted); font-size: 13px;">[ ${student.grades.join(', ')} ]</td>
+          <td><span class="points-badge">${student.points} PTS</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Pokreni
+    loadData();
+  </script>
+</body>
+</html>
