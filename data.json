@@ -12,7 +12,7 @@
     { "id": "4", "name": "Level 4", "min": 37, "icon": "images/4.png" },
     { "id": "3", "name": "Level 3", "min": 30, "icon": "images/3.png" },
     { "id": "2", "name": "Level 2", "min": 20, "icon": "images/2.png" },
-    { "id": "1", "name": "Level 1", "min": 13, "icon": "images/1.png" },
+    { "id": "1", "name": "Level 1", "min": 2, "icon": "images/1.png" },
     { "id": "unranked", "name": "Unranked", "min": 0, "icon": "images/unranked.PNG" }
   ],
   "classes": {
