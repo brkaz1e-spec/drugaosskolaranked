@@ -38,7 +38,7 @@
       { "id": "u18", "name": "Merima Muminovic", "avatar": "", "grades": ["n"] },
       { "id": "u19", "name": "Emina Talovic", "avatar": "", "grades": ["n"] },
       { "id": "u20", "name": "Adin Sehic", "avatar": "", "grades": ["n"] },
-      { "id": "u21", "name": "Adis Spahic", "avatar": "", "grades": ["5,4,5,4,4,5,5,5,5,5,5"] },
+      { "id": "u21", "name": "Adis Spahic", "avatar": "", "grades": [5,4,5,4,4,5,5,5,5,5,5] },
       { "id": "u22", "name": "Armin Strasevic", "avatar": "", "grades": ["n"] },
       { "id": "u23", "name": "Mersa Sarajlic", "avatar": "", "grades": ["n"] },
       { "id": "u24", "name": "Selma Malkic", "avatar": "", "grades": ["n"] },
