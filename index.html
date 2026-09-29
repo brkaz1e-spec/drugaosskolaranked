@@ -1,9 +1,9 @@
-ac<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bs">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DrugaOS Ranging</title>
+  <title>DrugaOS Rangiranje</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -103,7 +103,7 @@ ac<!DOCTYPE html>
       box-shadow: 0 0 12px var(--accent-orange-glow);
     }
 
-    /* SUB CONTROLS (za odjeljenja) */
+    /* SUB CONTROLS */
     .filter-bar {
       display: flex;
       align-items: center;
@@ -164,14 +164,13 @@ ac<!DOCTYPE html>
       background: var(--bg-table-hover);
     }
 
-    /* USER COLUMN */
     .player-cell {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    /* RESCALING SYSTEM (TAČNO 33x33 px) */
+    /* RESCALING SYSTEM (33x33 px) */
     .pixel-rescale {
       width: 33px;
       height: 33px;
@@ -274,7 +273,6 @@ ac<!DOCTYPE html>
     let appData = null;
     let currentTab = 'leaderboard';
 
-    // Helper za zaštitu od čudnih znakova u imenima
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -285,13 +283,30 @@ ac<!DOCTYPE html>
         .replace(/'/g, '&#039;');
     }
 
+    // Čisti i razdvaja ocjene čak i ako su unesene kao string "5,4,5,4"
+    function normalizeGrades(grades) {
+      if (!Array.isArray(grades)) return [];
+      const cleanList = [];
+      grades.forEach(item => {
+        if (typeof item === 'string' && item.includes(',')) {
+          item.split(',').forEach(sub => {
+            const trimmed = sub.trim();
+            if (trimmed) cleanList.push(trimmed);
+          });
+        } else if (item !== null && item !== undefined && String(item).trim() !== '') {
+          cleanList.push(String(item).trim());
+        }
+      });
+      return cleanList;
+    }
+
     async function loadData() {
       try {
-        const res = await fetch('data.json');
-        if (!res.ok) throw new Error('Nije uspjelo učitavanje data.json (Status: ' + res.status + ')');
+        // Cache buster sprečava preglednik da učita staru verziju data.json fajla
+        const res = await fetch('data.json?t=' + Date.now());
+        if (!res.ok) throw new Error('data.json nije pronađen (Status: ' + res.status + ')');
         appData = await res.json();
         
-        // Osiguraj da su rangovi sortirani silazno po minimalnim bodovima
         if (appData.ranks) {
           appData.ranks.sort((a, b) => (b.min || 0) - (a.min || 0));
         }
@@ -302,18 +317,16 @@ ac<!DOCTYPE html>
         console.error('Greška pri učitavanju data.json:', err);
         const tbody = document.getElementById('rankingTableBody');
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #ff5500; padding: 20px;">
-          Greška pri učitavanju podataka iz data.json! Provjeri konzolu (F12).
+          Greška pri učitavanju data.json!<br><small style="color:#aaa;">${err.message}</small>
         </td></tr>`;
       }
     }
 
-    // Sigurna kalkulacija (radi čak i ako je ocjena broj ili string)
     function calculatePoints(grades) {
-      if (!Array.isArray(grades)) return 0;
-      return grades.reduce((acc, grade) => {
-        const key = String(grade);
-        const val = (appData.pointValues && appData.pointValues[key] !== undefined)
-          ? appData.pointValues[key] 
+      const cleanGrades = normalizeGrades(grades);
+      return cleanGrades.reduce((acc, grade) => {
+        const val = (appData.pointValues && appData.pointValues[grade] !== undefined)
+          ? appData.pointValues[grade] 
           : 0;
         return acc + val;
       }, 0);
@@ -321,7 +334,7 @@ ac<!DOCTYPE html>
 
     function getRank(points) {
       if (!appData.ranks || appData.ranks.length === 0) {
-        return { name: "Unranked", icon: "images/un.png" };
+        return { name: "Unranked", icon: "images/unranked.PNG" };
       }
       for (const rank of appData.ranks) {
         if (points >= rank.min) {
@@ -342,6 +355,7 @@ ac<!DOCTYPE html>
           const rank = getRank(points);
           all.push({
             ...student,
+            cleanGrades: normalizeGrades(student.grades),
             className,
             points,
             rank
@@ -396,6 +410,7 @@ ac<!DOCTYPE html>
         const points = calculatePoints(s.grades);
         return {
           ...s,
+          cleanGrades: normalizeGrades(s.grades),
           className: selectedClass,
           points,
           rank: getRank(points)
@@ -410,7 +425,7 @@ ac<!DOCTYPE html>
       tbody.innerHTML = '';
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding: 24px;">Nema pronađenih učenika.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding: 24px;">Nema učenika.</td></tr>`;
         return;
       }
 
@@ -418,14 +433,12 @@ ac<!DOCTYPE html>
         const pos = index + 1;
         const posClass = pos === 1 ? 'standing-1' : pos === 2 ? 'standing-2' : pos === 3 ? 'standing-3' : '';
 
-        // Avatar fallback logika bez beskonačne petlje
         const avatarSrc = (student.avatar && String(student.avatar).trim() !== '') 
           ? escapeHtml(student.avatar) 
           : 'images/default-avatar.png';
 
-        const gradesDisplay = Array.isArray(student.grades) && student.grades.length > 0 
-          ? student.grades.join(', ') 
-          : 'Nema ocjena';
+        const gradesArray = student.cleanGrades || normalizeGrades(student.grades);
+        const gradesDisplay = gradesArray.length > 0 ? gradesArray.join(', ') : 'Nema ocjena';
 
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -436,7 +449,7 @@ ac<!DOCTYPE html>
                 src="${escapeHtml(student.rank.icon)}" 
                 alt="${escapeHtml(student.rank.name)}" 
                 class="pixel-rescale" 
-                onerror="this.onerror=null; this.src='images/un.png';" 
+                onerror="this.onerror=null; this.src='images/unranked.PNG';" 
               />
             </div>
           </td>
