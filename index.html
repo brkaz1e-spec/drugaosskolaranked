@@ -321,7 +321,7 @@
 
     function getRank(points) {
       if (!appData.ranks || appData.ranks.length === 0) {
-        return { name: "Unranked", icon: "images/Unranked.png" };
+        return { name: "Unranked", icon: "images/un.png" };
       }
       for (const rank of appData.ranks) {
         if (points >= rank.min) {
@@ -436,7 +436,7 @@
                 src="${escapeHtml(student.rank.icon)}" 
                 alt="${escapeHtml(student.rank.name)}" 
                 class="pixel-rescale" 
-                onerror="this.onerror=null; this.src='images/unranked.PNG';" 
+                onerror="this.onerror=null; this.src='images/un.png';" 
               />
             </div>
           </td>
