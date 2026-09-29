@@ -1,0 +1,64 @@
+{
+  "pointValues": {
+    "5": 5,
+    "4": 4,
+    "3": 3,
+    "2": 2,
+    "1": 1
+  },
+  "ranks": [
+    { "id": "M", "name": "M RATED", "min": 65, "icon": "images/M.png" },
+    { "id": "L", "name": "L RATED", "min": 50, "icon": "images/L.png" },
+    { "id": "4", "name": "Level 4", "min": 37, "icon": "images/4.png" },
+    { "id": "3", "name": "Level 3", "min": 30, "icon": "images/3.png" },
+    { "id": "2", "name": "Level 2", "min": 20, "icon": "images/2.png" },
+    { "id": "1", "name": "Level 1", "min": 13, "icon": "images/1.png" },
+    { "id": "unranked", "name": "Unranked", "min": 0, "icon": "images/unranked.PNG" }
+  ],
+  "classes": {
+    "8d": [
+      {
+        "id": "u1",
+        "name": "Amar Hodžić",
+        "avatar": "",
+        "grades": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
+      },
+      {
+        "id": "u2",
+        "name": "Kenan Delić",
+        "avatar": "https://i.pravatar.cc/100?img=12",
+        "grades": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3]
+      },
+      {
+        "id": "u3",
+        "name": "Sara Begić",
+        "avatar": "",
+        "grades": [5, 5, 4, 4, 4, 4, 4, 5, 4]
+      },
+      {
+        "id": "u4",
+        "name": "Faruk Kovačević",
+        "avatar": "",
+        "grades": [4, 4, 3, 3, 4, 4, 4, 4]
+      },
+      {
+        "id": "u5",
+        "name": "Dino Babić",
+        "avatar": "https://i.pravatar.cc/100?img=60",
+        "grades": [3, 3, 3, 4, 4, 4, 2]
+      },
+      {
+        "id": "u6",
+        "name": "Emina Smajić",
+        "avatar": "",
+        "grades": [3, 2, 3, 3, 2, 2]
+      },
+      {
+        "id": "u7",
+        "name": "Mirza T.",
+        "avatar": "",
+        "grades": [2, 1, 2, 3]
+      }
+    ]
+  }
+}
