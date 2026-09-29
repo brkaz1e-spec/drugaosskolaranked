@@ -6,6 +6,7 @@
     "2": 2,
     "1": 1,
     "n": 0
+   
   },
   "ranks": [
     { "id": "M", "name": "M RATED", "min": 65, "icon": "images/M.png" },
@@ -22,159 +23,158 @@
         "id": "u1",
         "name": "Mensura Alimanovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
       {
         "id": "u2",
         "name": "Minela Alimanovic",
         "avatar": "",
-        "grades": [z]
+        "grades": ["n"]
       },
-        {
+      {
         "id": "u3",
         "name": "Dino Aljic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
       {
         "id": "u4",
         "name": "Hasan Basic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u5",
         "name": "Vedad B.",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u6",
         "name": "Kenan Beluli",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u7",
         "name": "Hena Besic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u8",
         "name": "Ermin Bojagic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u9",
         "name": "Ajla Bojic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u10",
         "name": "Arijana Brcaninovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u11",
         "name": "Kenan Brkic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u12",
         "name": "Azra Cickusic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u13",
         "name": "Sayra Delic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u14",
         "name": "Amar Hodzic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u15",
         "name": "Emina Fetai",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u16",
         "name": "Alina Nuhanovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u17",
         "name": "Sara Ramic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-
-         {
+      {
         "id": "u18",
         "name": "Merima Muminovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u19",
         "name": "Emina Talovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u20",
         "name": "Adin Sehic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u21",
         "name": "Adis Spahic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u22",
         "name": "Armin Strasevic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u23",
         "name": "Mersa Sarajlic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u24",
         "name": "Selma Malkic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u25",
         "name": "Ismet Muminovic",
         "avatar": "",
-        "grades": [n]
+        "grades": ["n"]
       },
-         {
+      {
         "id": "u26",
         "name": "Tarik Huseinovic",
         "avatar": "",
-        "grades": [n]
-      },
+        "grades": ["n"]
+      }
     ]
   }
 }
