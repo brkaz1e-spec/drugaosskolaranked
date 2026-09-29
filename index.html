@@ -381,10 +381,10 @@
         const pos = index + 1;
         const posClass = pos === 1 ? 'standing-1' : pos === 2 ? 'standing-2' : pos === 3 ? 'standing-3' : '';
 
-        // Rescaling profilna (ako nema slike stavlja unranked.PNG ili generic)
-        const avatarSrc = student.avatar && student.avatar.trim() !== '' 
+        // Ako je polje avatar prazno (""), postavi default-avatar.png
+        const avatarSrc = (student.avatar && student.avatar.trim() !== '') 
           ? student.avatar 
-          : 'images/unranked.PNG';
+          : 'images/default-avatar.png';
 
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -396,7 +396,7 @@
           </td>
           <td>
             <div class="player-cell">
-              <img src="${avatarSrc}" alt="${student.name}" class="pixel-rescale player-avatar" onerror="this.src='images/unranked.PNG';" />
+              <img src="${avatarSrc}" alt="${student.name}" class="pixel-rescale player-avatar" onerror="this.src='images/default-avatar.png';" />
               <span><strong>${student.name}</strong></span>
             </div>
           </td>
