@@ -4,7 +4,8 @@
     "4": 4,
     "3": 3,
     "2": 2,
-    "1": 1
+    "1": 1,
+    "n": 0
   },
   "ranks": [
     { "id": "M", "name": "M RATED", "min": 65, "icon": "images/M.png" },
@@ -19,46 +20,161 @@
     "8d": [
       {
         "id": "u1",
-        "name": "Amar Hodžić",
+        "name": "Mensura Alimanovic",
         "avatar": "",
-        "grades": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
+        "grades": []
       },
       {
         "id": "u2",
-        "name": "Kenan Delić",
+        "name": "Minela Alimanovic",
         "avatar": "",
-        "grades": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3]
+        "grades": []
       },
-      {
+        {
         "id": "u3",
-        "name": "Sara Begić",
+        "name": "Dino Aljic",
         "avatar": "",
-        "grades": [5, 5, 4, 4, 4, 4, 4, 5, 4]
+        "grades": []
       },
       {
         "id": "u4",
-        "name": "Faruk Kovačević",
+        "name": "Hasan Basic",
         "avatar": "",
-        "grades": [4, 4, 3, 3, 4, 4, 4, 4]
+        "grades": []
       },
-      {
+         {
         "id": "u5",
-        "name": "Dino Babić",
+        "name": "Vedad B.",
         "avatar": "",
-        "grades": [3, 3, 3, 4, 4, 4, 2]
+        "grades": []
       },
-      {
+         {
         "id": "u6",
-        "name": "Emina Smajić",
+        "name": "Kenan Beluli",
         "avatar": "",
-        "grades": [3, 2, 3, 3, 2, 2]
+        "grades": []
       },
-      {
+         {
         "id": "u7",
-        "name": "Mirza T.",
+        "name": "Hena Besic",
         "avatar": "",
-        "grades": [2, 1, 2, 3]
-      }
+        "grades": []
+      },
+         {
+        "id": "u8",
+        "name": "Ermin Bojagic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u9",
+        "name": "Ajla Bojic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u10",
+        "name": "Arijana Brcaninovic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u11",
+        "name": "Kenan Brkic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u12",
+        "name": "Azra Cickusic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u13",
+        "name": "Sayra Delic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u14",
+        "name": "Amar Hodzic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u15",
+        "name": "Emina Fetai",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u16",
+        "name": "Alina Nuhanovic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u17",
+        "name": "Sara Ramic",
+        "avatar": "",
+        "grades": []
+      },
+
+         {
+        "id": "u18",
+        "name": "Merima Muminovic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u19",
+        "name": "Emina Talovic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u20",
+        "name": "Adin Sehic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u21",
+        "name": "Adis Spahic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u22",
+        "name": "Armin Strasevic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u23",
+        "name": "Mersa Sarajlic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u24",
+        "name": "Selma Malkic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u25",
+        "name": "Ismet Muminovic",
+        "avatar": "",
+        "grades": []
+      },
+         {
+        "id": "u26",
+        "name": "Tarik Huseinovic",
+        "avatar": "",
+        "grades": []
+      },
     ]
   }
 }
