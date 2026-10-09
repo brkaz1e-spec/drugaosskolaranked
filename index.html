@@ -322,14 +322,21 @@
       }
     }
 
+    // Ranking score:
+    // - Prosjek ocjena * 10 (prosjek 5.00 = 50.00 poena)
+    // - Bonus +1 poen za svaku peticu, pa rezultat može preći 50.00
+    // Primjer: ocjene 5, 5, 5 => prosjek 5.00 => 50 + 3 = 53.00 poena.
     function calculatePoints(grades) {
-      const cleanGrades = normalizeGrades(grades);
-      return cleanGrades.reduce((acc, grade) => {
-        const val = (appData.pointValues && appData.pointValues[grade] !== undefined)
-          ? appData.pointValues[grade] 
-          : 0;
-        return acc + val;
-      }, 0);
+      const cleanGrades = normalizeGrades(grades)
+        .map(grade => Number(grade))
+        .filter(grade => Number.isFinite(grade) && grade >= 1 && grade <= 5);
+
+      if (cleanGrades.length === 0) return 0;
+
+      const average = cleanGrades.reduce((sum, grade) => sum + grade, 0) / cleanGrades.length;
+      const fiveBonus = cleanGrades.filter(grade => grade === 5).length;
+
+      return Number((average * 10 + fiveBonus).toFixed(2));
     }
 
     function getRank(points) {
@@ -466,7 +473,7 @@
           </td>
           <td><span class="tag-class">${escapeHtml(student.className.toUpperCase())}</span></td>
           <td style="color: var(--text-muted); font-size: 13px;">[ ${escapeHtml(gradesDisplay)} ]</td>
-          <td><span class="points-badge">${student.points} PTS</span></td>
+          <td><span class="points-badge">${Number(student.points).toFixed(2)} PTS</span></td>
         `;
         tbody.appendChild(row);
       });
